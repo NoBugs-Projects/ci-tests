@@ -5,6 +5,7 @@ import com.example.teamcity.api.models.BaseModel;
 import com.example.teamcity.api.requests.CrudInterface;
 import com.example.teamcity.api.requests.Request;
 import com.example.teamcity.api.requests.SearchInterface;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -16,6 +17,7 @@ public class UncheckedBase extends Request implements CrudInterface, SearchInter
     }
 
     @Override
+    @Step("Creating entity")
     public Response create(BaseModel model) {
         return RestAssured
                 .given()
@@ -25,6 +27,7 @@ public class UncheckedBase extends Request implements CrudInterface, SearchInter
     }
 
     @Override
+    @Step("Performing findAll operation with attribute={attribute}")
     public Response findAll(String attribute) {
         return RestAssured
                 .given()
@@ -33,6 +36,7 @@ public class UncheckedBase extends Request implements CrudInterface, SearchInter
     }
 
     @Override
+    @Step("Performing read operation with locator={locator}")
     public Response read(String locator) {
         return RestAssured
                 .given()
@@ -41,6 +45,7 @@ public class UncheckedBase extends Request implements CrudInterface, SearchInter
     }
 
     @Override
+    @Step("Updating entity with locator={locator}")
     public Response update(String locator, BaseModel model) {
         return RestAssured
                 .given()
@@ -50,6 +55,7 @@ public class UncheckedBase extends Request implements CrudInterface, SearchInter
     }
 
     @Override
+    @Step("Deleting entity with locator={locator}")
     public Response delete(String locator) {
         return RestAssured
                 .given()
@@ -58,6 +64,7 @@ public class UncheckedBase extends Request implements CrudInterface, SearchInter
     }
 
     @Override
+    @Step("Performing search with searchParameter={searchParameter}")
     public Response search(String searchParameter) {
         var params = searchParameter.split(":");
         return RestAssured

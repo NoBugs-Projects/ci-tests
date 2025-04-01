@@ -2,13 +2,18 @@ package com.example.teamcity.api.spec;
 
 import com.example.teamcity.api.config.Config;
 import com.example.teamcity.api.models.User;
+import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
-import java.util.List;
+import java.nio.file.Paths;
+
+import static com.github.viclovsky.swagger.coverage.SwaggerCoverageConstants.OUTPUT_DIRECTORY;
 
 
 public class Specifications {
@@ -17,9 +22,16 @@ public class Specifications {
     private static RequestSpecBuilder reqBuilder() {
         RequestSpecBuilder reqBuilder = new RequestSpecBuilder();
         reqBuilder.setBaseUri("http://" + Config.getProperty("host"));
+        reqBuilder.addFilter(new RequestLoggingFilter());
+        reqBuilder.addFilter(new ResponseLoggingFilter());
+        reqBuilder.addFilter(new SwaggerCoverageRestAssured(
+                new FileSystemOutputWriter(
+                        Paths.get("target/" + OUTPUT_DIRECTORY)
+                )
+        ));
+        reqBuilder.addFilter(new AllureRestAssured());
         reqBuilder.setContentType(ContentType.JSON);
         reqBuilder.setAccept(ContentType.JSON);
-        reqBuilder.addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter()));
         return reqBuilder;
     }
 
@@ -42,7 +54,7 @@ public class Specifications {
 
     public static RequestSpecification mockSpec() {
         return reqBuilder()
-                .setBaseUri("http://localhost:8081")
+                .setBaseUri("http://" + Config.getProperty("host").split(":")[0] + ":" + Config.getProperty("mockServerPort"))
                 .build();
     }
 }
