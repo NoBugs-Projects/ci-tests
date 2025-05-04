@@ -21,7 +21,6 @@ public class LoginPage extends BasePage {
 
     @Step("Login as {user.username}")
     public ProjectsPage login(User user) {
-        // Метод val вместо clear, sendKeys
         inputUsername.val(user.getUsername());
         inputPassword.val(user.getPassword());
         inputSubmitLogin.click();

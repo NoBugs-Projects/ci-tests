@@ -34,7 +34,6 @@ jobs:
 
       - name: Run tests
         continue-on-error: true
-        # Указываем группу, чтобы не запустить тесты, связанные с сетапом TeamCity
         run: ./mvnw test -Dtest='com.example.teamcity.${{ inputs.package }}.**' -Dgroups=Regression
 
       - name: Run Swagger Coverage
@@ -43,7 +42,6 @@ jobs:
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://$HOST:8111/app/rest/swagger.json -i target/swagger-coverage-output
         shell: bash
 
-      # Сохраняем Swagger Report в артефакты GitHub Actions
       - name: Save Swagger Coverage
         uses: actions/upload-artifact@v4
         if: ${{ inputs.package == 'api' }}
