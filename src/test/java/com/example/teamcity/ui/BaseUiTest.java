@@ -7,13 +7,16 @@ import com.example.teamcity.BaseTest;
 import com.example.teamcity.api.config.Config;
 import com.example.teamcity.api.enums.Endpoint;
 import com.example.teamcity.api.models.User;
+import com.example.teamcity.ui.listeners.UserSessionListener;
 import com.example.teamcity.ui.pages.LoginPage;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Listeners;
 
 import java.util.Map;
 
+@Listeners(UserSessionListener.class)
 public class BaseUiTest extends BaseTest {
     @BeforeSuite(alwaysRun = true)
     public void setupUiTest() {

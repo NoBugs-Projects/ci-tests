@@ -4,6 +4,7 @@ import com.example.teamcity.api.generators.RandomData;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.api.requests.CheckedRequests;
 import com.example.teamcity.api.spec.Specifications;
+import com.example.teamcity.ui.annotations.UserSession;
 import com.example.teamcity.ui.elements.SidebarRow;
 import com.example.teamcity.ui.errors.ProjectErrorMessagesUI;
 import com.example.teamcity.ui.pages.ProjectsPage;
@@ -16,11 +17,9 @@ import static com.example.teamcity.api.enums.Endpoint.PROJECTS;
 @Test(groups = {"Regression"})
 public class SearchProjectTest extends BaseUiTest {
 
-
+    @UserSession
     @Test(description = "User should be able to search project by name", groups = {"Positive"})
     public void userSearchProject() {
-        loginAs(testData.getUser());
-
         var userCheckRequests = new CheckedRequests(Specifications.authSpec(testData.getUser()));
         var createdProject = userCheckRequests.<Project>getRequest(PROJECTS).create(testData.getProject());
 
@@ -33,10 +32,9 @@ public class SearchProjectTest extends BaseUiTest {
         payloadValidator.validateAttribute(rows.getFirst().getName().text(), createdProject.getName());
     }
 
+    @UserSession
     @Test(description = "User should not be able to search project that doesn't exist", groups = {"Negative"})
     public void userSearchProjectNotExist() {
-        loginAs(testData.getUser());
-
         var userCheckRequests = new CheckedRequests(Specifications.authSpec(testData.getUser()));
         userCheckRequests.<Project>getRequest(PROJECTS).create(testData.getProject());
 

@@ -3,6 +3,7 @@ package com.example.teamcity.ui;
 import com.codeborne.selenide.Condition;
 import com.example.teamcity.api.enums.Endpoint;
 import com.example.teamcity.api.models.Project;
+import com.example.teamcity.ui.annotations.UserSession;
 import com.example.teamcity.ui.errors.ProjectErrorMessagesUI;
 import com.example.teamcity.ui.pages.ProjectPage;
 import com.example.teamcity.ui.pages.ProjectsPage;
@@ -14,11 +15,9 @@ public class CreateProjectTest extends BaseUiTest {
     private static final String REPO_URL = "https://github.com/AlexPshe/spring-core-for-qa";
     private static final String ATTR_NAME = "project";
 
-
+    @UserSession
     @Test(description = "User should be able to create project", groups = {"Positive"})
     public void userCreatesProject() {
-        loginAs(testData.getUser());
-
         CreateProjectPage.open("_Root")
                 .createForm(REPO_URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
@@ -36,10 +35,9 @@ public class CreateProjectTest extends BaseUiTest {
         softy.assertTrue(foundProjects);
     }
 
+    @UserSession
     @Test(description = "User should not be able to create project without name", groups = {"Negative"})
     public void userCreatesProjectWithoutName() {
-        loginAs(testData.getUser());
-
         var projectsBefore = superUserCheckRequests.<Project>getRequest(Endpoint.PROJECTS).findAll(ATTR_NAME);
 
         CreateProjectPage create_project_page = CreateProjectPage.open("_Root")

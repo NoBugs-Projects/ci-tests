@@ -18,7 +18,6 @@ import static com.example.teamcity.api.enums.Endpoint.BUILD_TYPES;
 import static com.example.teamcity.api.enums.Endpoint.PROJECTS;
 
 @Test(groups = {"Regression"})
-@Listeners(UserSessionListener.class)
 public class CreateBuildTest extends BaseUiTest {
     private static final String REPO_URL = "https://github.com/AlexPshe/spring-core-for-qa";
     private static final String ATTR_NAME = "buildType";
