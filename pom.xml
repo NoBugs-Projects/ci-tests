@@ -26,7 +26,7 @@
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-surefire-plugin>3.5.2</maven-surefire-plugin>
         <allure-maven>2.15.2</allure-maven>
-        <aspectj.version>1.9.23</aspectj.version>
+        <aspectj.version>1.9.21</aspectj.version>
         <slf4j-simple.version>2.0.9</slf4j-simple.version>
     </properties>
 

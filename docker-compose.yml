@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  teamcity-server:
+    image: jetbrains/teamcity-server:2023.11.1
+    container_name: teamcity-server
+    ports:
+      - "8111:8111"
+    volumes:
+      - ./datadir:/data/teamcity_server/datadir
+      - ./logs:/opt/teamcity/logs
+
+  teamcity-agent:
+    image: jetbrains/teamcity-agent:latest
+    container_name: teamcity-agent
+    depends_on:
+      - teamcity-server
+    environment:
+      - SERVER_URL=http://${HOST:-localhost}:8111
+      - AGENT_NAME=teamcityDefaultAgent
+    volumes:
+      - ./tmp/teamcity_agent/conf:/data/teamcity_agent/conf
+    user: "0"
+    restart: always
+
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    container_name: selenoid
+    ports:
+      - "4444:4444"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/:/etc/selenoid/:ro
+    restart: always
+
+  selenoid-ui:
+    image: aerokube/selenoid-ui:latest-release
+    container_name: selenoid-ui
+    ports:
+      - "8080:8080"
+    command: [
+      "--selenoid-uri", "http://${HOST:-localhost}:4444"
+    ]
+    depends_on:
+      - selenoid
+    restart: always

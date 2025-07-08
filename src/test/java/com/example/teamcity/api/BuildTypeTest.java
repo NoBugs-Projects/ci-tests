@@ -20,8 +20,7 @@ import static com.example.teamcity.api.errors.BuildErrorMessages.NO_PERMISSIONS;
 import static com.example.teamcity.api.generators.TestDataGenerator.generate;
 
 
-@Test(groups = {"Regression"})
-public class BuildTypeTest extends BaseApiTest {
+ public class BuildTypeTest extends BaseApiTest {
     @Test(description = "User should be able to create build type", groups = {"Positive", "CRUD"})
     public void userCreatesBuildTypeTest() {
         superUserCheckRequests.getRequest(USERS).create(testData.getUser());

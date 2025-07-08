@@ -4,9 +4,12 @@ import com.example.teamcity.api.models.BuildType;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.api.requests.CheckedRequests;
 import com.example.teamcity.api.spec.Specifications;
+import com.example.teamcity.ui.annotations.UserSession;
 import com.example.teamcity.ui.errors.BuildTypeErrorMessagesUI;
+import com.example.teamcity.ui.listeners.UserSessionListener;
 import com.example.teamcity.ui.pages.ProjectsBuildsPage;
 import com.example.teamcity.ui.pages.admin.CreateBuildConfigPage;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.util.Optional;
@@ -15,15 +18,14 @@ import static com.example.teamcity.api.enums.Endpoint.BUILD_TYPES;
 import static com.example.teamcity.api.enums.Endpoint.PROJECTS;
 
 @Test(groups = {"Regression"})
+@Listeners(UserSessionListener.class)
 public class CreateBuildTest extends BaseUiTest {
     private static final String REPO_URL = "https://github.com/AlexPshe/spring-core-for-qa";
     private static final String ATTR_NAME = "buildType";
 
-
+    @UserSession
     @Test(description = "User should be able to create build", groups = {"Positive"})
     public void userCreatesBuild() {
-        loginAs(testData.getUser());
-
         var userCheckRequests = new CheckedRequests(Specifications.authSpec(testData.getUser()));
         var createdProject = userCheckRequests.<Project>getRequest(PROJECTS).create(testData.getProject());
 
@@ -46,11 +48,9 @@ public class CreateBuildTest extends BaseUiTest {
         softy.assertTrue(foundBuilds);
     }
 
-
+    @UserSession
     @Test(description = "User should not be able to create build with name that already exist", groups = {"Positive"})
     public void userCreatesBuildDuplicatedNane() {
-        loginAs(testData.getUser());
-
         var userCheckRequests = new CheckedRequests(Specifications.authSpec(testData.getUser()));
         var createdProject = userCheckRequests.<Project>getRequest(PROJECTS).create(testData.getProject());
         testData.getBuildType().setProject(createdProject);

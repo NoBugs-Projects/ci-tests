@@ -1,51 +1,51 @@
 package com.example.teamcity.api.requests;
 
 import com.example.teamcity.api.models.BaseModel;
+import io.restassured.response.Response;
 
 /**
- * Interface defining CRUD (Create, Read, Update, Delete) operations for API entities.
- * Provides type-safe operations for managing entities that extend BaseModel.
+ * Interface defining unchecked CRUD operations for API entities.
+ * Unchecked operations return raw HTTP responses without automatic status code validation.
  *
- * @param <T> the type of entity this interface operates on, must extend BaseModel
  * @author TeamCity Testing Framework
  * @since 1.0
  */
-public interface CrudInterface<T extends BaseModel> {
+public interface UncheckedCrudInterface {
     
     /**
      * Creates a new entity on the server.
      *
      * @param model the entity to create
-     * @return the created entity with server-generated fields populated
+     * @return the raw HTTP response
      * @throws IllegalArgumentException if model is null
      */
-    T create(T model);
+    Response create(BaseModel model);
 
     /**
      * Retrieves an entity by its identifier.
      *
      * @param id the unique identifier of the entity
-     * @return the found entity
+     * @return the raw HTTP response
      * @throws IllegalArgumentException if id is null or empty
      */
-    T read(String id);
+    Response read(String id);
 
     /**
      * Updates an existing entity on the server.
      *
      * @param id the unique identifier of the entity to update
      * @param model the updated entity data
-     * @return the updated entity
+     * @return the raw HTTP response
      * @throws IllegalArgumentException if id or model is null
      */
-    T update(String id, T model);
+    Response update(String id, BaseModel model);
 
     /**
      * Deletes an entity from the server.
      *
      * @param id the unique identifier of the entity to delete
-     * @return the response from the delete operation
+     * @return the raw HTTP response
      * @throws IllegalArgumentException if id is null or empty
      */
-    Object delete(String id);
-}
+    Response delete(String id);
+} 

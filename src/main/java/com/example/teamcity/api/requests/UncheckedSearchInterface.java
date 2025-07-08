@@ -1,35 +1,32 @@
 package com.example.teamcity.api.requests;
 
-import com.example.teamcity.api.models.BaseModel;
-
-import java.util.List;
+import io.restassured.response.Response;
 
 /**
- * Interface defining search operations for API entities.
- * Provides type-safe search operations for entities that extend BaseModel.
+ * Interface defining unchecked search operations for API entities.
+ * Unchecked operations return raw HTTP responses without automatic status code validation.
  *
- * @param <T> the type of entity this interface operates on, must extend BaseModel
  * @author TeamCity Testing Framework
  * @since 1.0
  */
-public interface SearchInterface<T extends BaseModel> {
+public interface UncheckedSearchInterface {
     
     /**
      * Retrieves all entities of the specified type.
      *
      * @param attribute the attribute to filter by (can be null for all entities)
-     * @return a list of entities matching the criteria
+     * @return the raw HTTP response
      * @throws IllegalArgumentException if attribute is invalid
      */
-    List<T> findAll(String attribute);
+    Response findAll(String attribute);
 
     /**
      * Searches for entities based on the provided search parameter.
      * The search parameter should be in the format "field:value".
      *
      * @param searchParameter the search parameter in format "field:value"
-     * @return the found entity or null if not found
+     * @return the raw HTTP response
      * @throws IllegalArgumentException if searchParameter is null, empty, or malformed
      */
-    T search(String searchParameter);
-}
+    Response search(String searchParameter);
+} 

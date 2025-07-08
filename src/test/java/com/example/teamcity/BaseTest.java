@@ -13,8 +13,8 @@ import static com.example.teamcity.api.generators.TestDataGenerator.generate;
 
 public class BaseTest {
     protected SoftAssert softy;
-    protected TestData testData;
-    protected CheckedRequests superUserCheckRequests = new CheckedRequests(Specifications.superUserSpec());
+    public TestData testData;
+    public CheckedRequests superUserCheckRequests = new CheckedRequests(Specifications.superUserSpec());
     protected PayloadValidator payloadValidator;
 
     @BeforeMethod(alwaysRun = true)
